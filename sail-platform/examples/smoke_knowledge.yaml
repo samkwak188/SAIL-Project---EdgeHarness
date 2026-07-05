@@ -1,0 +1,17 @@
+# smoke_knowledge.yaml — grounded Q&A fixture (verifiable)
+task_text: "Answer with a citation from the corpus: what is TurboQuant's compression ratio at 1536-d, 2-bit?"
+expected_route: specialist
+adapter: qa_lora
+gate:
+  command: "python -m eval.citation_check --task smoke_knowledge"
+  description: "citation-faithfulness: every citation appears in the allowlisted corpus"
+corpus:
+  allowlist: [1, 2, 3]
+  docs:
+    - id: 1
+      text: "TurboQuant compresses a 1536-dim vector from 6144 bytes (fp32) to 384 bytes at 2-bit, a 16x compression."
+    - id: 2
+      text: "turbovec is a Rust vector index built on TurboQuant with Python bindings."
+    - id: 3
+      text: "Sakana Fugu orchestrates a pool of frontier cloud models through a learned coordinator."
+expected_answer_contains: ["16x", "384 bytes"]

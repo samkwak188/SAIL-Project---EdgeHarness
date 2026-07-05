@@ -1,0 +1,93 @@
+# --- Python ---
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg-info/
+*.egg
+build/
+dist/
+
+# --- Virtual envs ---
+.venv/
+venv/
+env/
+ENV/
+
+# --- Test / lint caches ---
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.tox/
+.coverage
+*.cover
+.hypothesis/
+
+# --- IDE ---
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# --- Secrets / env (NEVER commit) ---
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.crt
+*.p12
+*.pfx
+secrets/
+credentials/
+credentials.json
+api_keys.json
+*.secret
+.aws/
+.gnupg/
+
+# --- Local runtime state (regenerated per run) ---
+sail-platform/.sail/state/
+sail-platform/telemetry/runs/
+sail-platform/data/
+*.tvim
+*.tv
+*.npy
+
+# --- Model artifacts (too large / may contain licensed weights) ---
+*.bin
+*.safetensors
+*.gguf
+*.pt
+*.pth
+*.ckpt
+models/
+lora_adapters/
+*.lora
+
+# --- Logs ---
+*.log
+logs/
+
+# --- OS ---
+Thumbs.db
+Desktop.ini
+$RECYCLE_BIN/
+
+# --- Jupyter ---
+.ipynb_checkpoints/
+
+# --- Cursor agent state (local, not source) ---
+.agent-tools/
+.cursor/plans/
+
+# --- Scratchpad runtime ---
+sail-platform/.sail/state/scratchpad.json
+sail-platform/.sail/state/scratchpad.json.lock
+sail-platform/.sail/state/*.bak
+
+# --- PDFs are fine to commit (planning docs) but lock to specific ones ---
+# (no rule needed — planning PDFs are tracked)

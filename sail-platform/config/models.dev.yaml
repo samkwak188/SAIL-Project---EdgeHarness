@@ -1,0 +1,28 @@
+# models.dev.yaml — dev/test config using stub providers (no model server needed)
+# Use with: sail task run examples/smoke_coding.yaml --config config/models.dev.yaml
+providers:
+  stub_default:
+    type: stub
+    stub: true
+  stub_edge:
+    type: stub
+    stub: true
+
+embedding:
+  provider: fastembed
+  model: BAAI/bge-small-en-v1.5
+  dim: 384
+
+role_mapping:
+  smol: [stub_edge]
+  default: [stub_default]
+  slow: [stub_default]
+  plan: [stub_default]
+  judge: [stub_edge]
+
+ensemble:
+  generalist:
+    models: [stub_default]
+    candidates: 1
+    selection: verifier
+    serving: sequential_ok

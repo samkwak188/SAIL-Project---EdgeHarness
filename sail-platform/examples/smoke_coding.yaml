@@ -1,0 +1,25 @@
+# smoke_coding.yaml — tiny SWE-style fixture for the orchestrator E2E gate
+# Expected route: worker; gate = pytest -q on the fixture test
+task_text: "Fix the failing test in examples/fixtures/smoke_coding.py so that `add(2, 3)` returns 5."
+expected_route: worker
+gate:
+  command: ".venv/bin/python -m pytest -q examples/fixtures/smoke_coding_test.py"
+  description: "fixture test passes"
+fixtures:
+  - path: examples/fixtures/smoke_coding.py
+    content: |
+        def add(a, b):
+            return a - b  # bug: should be +
+    def mul(a, b):
+        return a * b
+  - path: examples/fixtures/smoke_coding_test.py
+    content: |
+        from examples.fixtures.smoke_coding import add, mul
+
+
+def test_add():
+    assert add(2, 3) == 5
+
+
+def test_mul():
+    assert mul(2, 3) == 6

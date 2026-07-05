@@ -1,0 +1,11 @@
+# smoke_research.yaml — domain survey prompt (research path, no edits)
+task_text: "Survey 3 candidate eval domains for a local AI consulting system; score each on verifiability, data access, and outreach interest. Write to research/domains.md."
+expected_route: research
+gate:
+  command: "test -f research/domains.md && ! grep -q 'TODO' research/domains.md"
+  description: "research report exists and has no TODO markers; no production files edited"
+no_edit_paths:
+  - orchestrator/
+  - harness/
+  - memory/
+  - providers/

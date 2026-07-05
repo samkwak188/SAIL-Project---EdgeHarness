@@ -1,0 +1,31 @@
+router:
+  version: v0_rules_plus_embedding
+  confidence_threshold: 0.75
+  log_decisions: true            # day 1 — this log becomes router-v1 training data
+  stages:
+    - keywords                   # cheap exact signals first
+    - embedding_similarity       # cosine vs task-type exemplars (local embedder)
+  task_types:
+    coding:
+      keywords: [fix, implement, test, refactor]
+      exemplars: ["fix the failing unit test in", "implement the function that"]
+      path: worker
+    extraction:
+      keywords: [extract, clause, span]
+      exemplars: ["extract the indemnification clause from"]
+      path: specialist
+      adapter: extraction_lora
+    grounded_qa:
+      keywords: [cite, source, document]
+      exemplars: ["answer with citations from the corpus"]
+      path: specialist
+      adapter: qa_lora
+    memo:
+      keywords: [draft, memo, summarize]
+      exemplars: ["draft a client memo about"]
+      path: generalist
+    research:
+      keywords: [survey, outreach, domain]
+      exemplars: ["survey candidate domains for"]
+      path: research
+fallback: generalist             # low confidence always escalates, never guesses

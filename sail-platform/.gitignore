@@ -1,0 +1,107 @@
+# --- Python ---
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg-info/
+*.egg
+build/
+dist/
+develop-eggs/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.whl
+
+# --- Virtual envs ---
+.venv/
+venv/
+env/
+ENV/
+env.bak/
+venv.bak/
+
+# --- Test / lint caches ---
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.tox/
+.nox/
+.coverage
+.coverage.*
+htmlcov/
+coverage.xml
+*.cover
+.hypothesis/
+
+# --- IDE ---
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# --- Secrets / env (NEVER commit) ---
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.crt
+*.p12
+*.pfx
+secrets/
+credentials/
+credentials.json
+api_keys.json
+*.secret
+.aws/
+.gnupg/
+
+# --- Local runtime state (regenerated per run; not source) ---
+.sail/state/
+telemetry/runs/
+data/
+*.tvim
+*.tv
+*.npy
+*.meta.json
+
+# --- Model artifacts (too large + may contain licensed weights) ---
+*.bin
+*.safetensors
+*.gguf
+*.pt
+*.pth
+*.ckpt
+models/
+lora_adapters/
+*.lora
+
+# --- Logs ---
+*.log
+logs/
+sail.log
+
+# --- OS ---
+Thumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# --- Jupyter ---
+.ipynb_checkpoints/
+*.ipynb_checkpoints
+
+# --- Project-specific: scratchpad + STATE runtime ---
+# STATE.md is committed as a template; runtime updates are gitignored
+.sail/state/scratchpad.json
+.sail/state/scratchpad.json.lock
+.sail/state/*.bak

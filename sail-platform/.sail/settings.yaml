@@ -1,0 +1,49 @@
+harness:
+  edit_mode: str_replace      # hashline | str_replace | patch (ablation dial)
+  edit_fallback: whole_file   # error-recovery ladder rung 2
+  read_before_edit: true
+  max_retries_per_step: 2
+  lsp_feedback: true
+  sandbox:
+    bash: subprocess_jail     # docker | subprocess_jail (edge nodes)
+    network: deny             # hard stop: no external calls with user data
+    denylist:
+      - "rm -rf /"
+      - "git push --force"
+      - "curl"
+      - "wget"
+      - ":(){ :|:& };:"
+
+context:
+  budgets:                    # component #5 — per-role token budgets
+    smol: 8000
+    default: 24000
+    slow: 48000
+  compaction: structured_summary_to_scratchpad   # never silent truncation
+  always_retain: [vision, current_step]
+
+loop:
+  maker_agent: worker
+  checker_agent: verifier
+  stop_hook: true
+
+hooks:
+  post_edit: [lint_check]     # feed diagnostics back before agent returns
+  pre_bash: [denylist_check]
+  post_cycle: [telemetry_flush, state_backup]
+
+memory:
+  scratchpad_path: .sail/state/scratchpad.json   # file-locked, atomic writes
+  turbovec:
+    dim: 384                  # MUST match config/models.yaml embedding.dim
+    bit_width: 4
+    index_path: data/index.tvim
+
+telemetry:
+  path: telemetry/runs/
+  record: [tokens, latency, cost, router_decision, gate_result, retry_rung]
+
+isolation:
+  orchestrator: [vision, state, scratchpad:meta]
+  worker: [scratchpad:task, retrieval:scoped]     # cannot see gate definition
+  verifier: [scratchpad:task, artifacts, gate_output]
