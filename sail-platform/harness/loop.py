@@ -11,6 +11,7 @@ Loop invariants:
 """
 from __future__ import annotations
 
+import json
 import time
 from dataclasses import dataclass, field
 from typing import Any
@@ -105,7 +106,15 @@ class HarnessLoop:
 
             assistant_msg = resp.get("content", "")
             calls = resp.get("tool_calls", [])
-            messages.append({"role": "assistant", "content": assistant_msg, "tool_calls": calls})
+            wire_calls = [
+                {
+                    "id": c["id"],
+                    "type": "function",
+                    "function": {"name": c["name"], "arguments": json.dumps(c.get("arguments", {}))},
+                }
+                for c in calls
+            ]
+            messages.append({"role": "assistant", "content": assistant_msg, "tool_calls": wire_calls or None})
 
             if not calls:
                 final_output = assistant_msg
@@ -123,7 +132,7 @@ class HarnessLoop:
                     "blocked": tr.blocked,
                 })
                 feedback = tr.output if tr.ok else f"ERROR: {tr.error}\n{tr.output}"
-                messages.append({"role": "tool", "name": tc.name, "content": feedback})
+                messages.append({"role": "tool", "tool_call_id": c["id"], "content": feedback})
                 if not tr.ok and tr.blocked:
                     ok = False
                     err = tr.error

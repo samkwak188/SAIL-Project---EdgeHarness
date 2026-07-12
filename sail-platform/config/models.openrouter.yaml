@@ -1,0 +1,27 @@
+# models.openrouter.yaml — real inference via OpenRouter, mimicking the eventual
+# local-Linux Gemma 4 deployment before hardware is provisioned.
+# Requires OPENROUTER_API_KEY set in the environment.
+# Use with: sail task run examples/smoke_coding.yaml --config config/models.openrouter.yaml
+providers:
+  gemma4_31b:
+    type: openrouter
+    model: google/gemma-4-31b-it   # paid tier — free tier is rate-limited upstream
+
+embedding:
+  provider: fastembed
+  model: BAAI/bge-small-en-v1.5
+  dim: 384
+
+role_mapping:
+  smol: [gemma4_31b]
+  default: [gemma4_31b]
+  slow: [gemma4_31b]
+  plan: [gemma4_31b]
+  judge: [gemma4_31b]
+
+ensemble:
+  generalist:
+    models: [gemma4_31b]
+    candidates: 1
+    selection: verifier
+    serving: sequential_ok

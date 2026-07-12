@@ -121,6 +121,8 @@ class LiteLLMPool:
         model = prov.get("model", name)
         if prov_type == "ollama":
             return f"ollama/{model}"
+        if prov_type == "openrouter":
+            return f"openrouter/{model}"  # litellm reads OPENROUTER_API_KEY, no api_base needed
         return model  # openai_compatible uses api_base + raw model name
 
     @staticmethod
@@ -136,7 +138,7 @@ class LiteLLMPool:
                 args = _json.loads(fn.arguments)
             except Exception:
                 args = {"_raw": fn.arguments}
-            out.append({"name": fn.name, "arguments": args})
+            out.append({"id": getattr(tc, "id", None), "name": fn.name, "arguments": args})
         return out
 
     def _stub_complete(
