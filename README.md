@@ -2,42 +2,7 @@
 
 Local AI orchestration for business workflows: prove that **routed local/open models match frontier cloud models on quality while costing less**, for a real client (first target: DeWitt LLP, a law firm).
 
-```mermaid
-flowchart TD
-    User([User submits a task]) --> Router
-
-    Router["Router<br/>keyword + embedding classify"]:::built --> Specialist
-    Router --> Worker
-    Router --> Generalist
-
-    Specialist["Specialist tier<br/>LoRA adapter, per task type"]:::planned
-    Worker["Worker agent loop<br/>Claude-Code-style tool loop"]:::built
-    Generalist["Generalist tier<br/>ensemble of models + judge"]:::planned
-
-    Specialist -.-> Verifier
-    Worker --> Verifier
-    Generalist -.-> Verifier
-
-    Verifier["Verifier gate<br/>runs tests / checks output"]:::built --> Result
-    Verifier -. "fail → escalate a tier<br/>(max 2 retries)" .-> Router
-
-    Result([Result → user])
-
-    subgraph loop["Inside the worker loop (mini-swe-agent style)"]
-        direction LR
-        Decide["model decides"]:::loop --> Call["tool call<br/>(read / edit / bash)"]:::loop
-        Call --> Exec["executor runs it"]:::loop
-        Exec --> Feedback["feedback appended"]:::loop
-        Feedback -.-> Decide
-    end
-    Worker -.-> loop
-
-    classDef built fill:#eef2ff,stroke:#4f46e5,stroke-width:2px
-    classDef planned fill:#fafafa,stroke:#a1a1aa,stroke-width:1px,stroke-dasharray:4 3
-    classDef loop fill:#eef9f0,stroke:#16a34a,stroke-width:1.5px
-```
-
-*Solid border = built & verified against a live model. Dashed border = config placeholder, no execution logic yet.*
+![Task pipeline](docs/pipeline-diagram.svg)
 
 ## The idea
 
