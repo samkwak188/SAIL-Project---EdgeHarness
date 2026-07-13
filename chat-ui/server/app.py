@@ -85,3 +85,27 @@ def list_sessions():
 @app.get("/api/sessions/{sid}")
 def get_session(sid: str):
     return sessions.get(sid) or {}
+
+
+class PinRequest(BaseModel):
+    pinned: bool
+
+
+@app.post("/api/sessions/{sid}/pin")
+def pin_session(sid: str, req: PinRequest):
+    sessions.set_pinned(sid, req.pinned)
+    return {"ok": True}
+
+
+@app.get("/api/skills")
+def list_skills():
+    skills_dir = bridge.SAIL_ROOT / ".sail" / "skills"
+    out = []
+    for d in sorted(skills_dir.iterdir()):
+        md = d / "SKILL.md"
+        if not md.exists():
+            continue
+        lines = md.read_text(encoding="utf-8").splitlines()
+        desc = next((ln for ln in lines[1:] if ln.strip()), "")
+        out.append({"name": d.name, "description": desc.strip()})
+    return out

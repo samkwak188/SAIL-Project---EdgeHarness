@@ -52,5 +52,13 @@ def append(sid: str, entry: dict[str, Any]) -> None:
     _save(session)
 
 
+def set_pinned(sid: str, pinned: bool) -> None:
+    session = get(sid)
+    if session is None:
+        return
+    session["pinned"] = pinned
+    _save(session)
+
+
 def _save(session: dict[str, Any]) -> None:
     _path(session["id"]).write_text(json.dumps(session, indent=2), encoding="utf-8")
