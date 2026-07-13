@@ -84,6 +84,10 @@ $RECYCLE_BIN/
 .agent-tools/
 .cursor/plans/
 
+# --- Chat UI local state ---
+chat-ui/sessions/
+chat-ui/web/node_modules/
+
 # --- Scratchpad runtime ---
 sail-platform/.sail/state/scratchpad.json
 sail-platform/.sail/state/scratchpad.json.lock

@@ -13,6 +13,7 @@ from __future__ import annotations
 
 import json
 import time
+from collections.abc import Callable
 from dataclasses import dataclass, field
 from typing import Any
 
@@ -54,6 +55,7 @@ class HarnessLoop:
         telemetry: Any,
         *,
         max_turns: int = 8,
+        on_event: Callable[[str, dict[str, Any]], None] | None = None,
     ):
         self.agent = agent_spec
         self.ctx_asm = context_assembler
@@ -61,6 +63,16 @@ class HarnessLoop:
         self.provider = provider
         self.telemetry = telemetry
         self.max_turns = max_turns
+        self.on_event = on_event
+
+    def _emit(self, event: str, data: dict[str, Any]) -> None:
+        """Observer hook for UIs — never allowed to break the loop."""
+        if self.on_event is None:
+            return
+        try:
+            self.on_event(event, data)
+        except Exception:
+            pass
 
     def run(
         self,
@@ -81,6 +93,7 @@ class HarnessLoop:
         err = ""
 
         for turn in range(self.max_turns):
+            self._emit("turn_start", {"agent": self.agent.name, "turn": turn})
             t0 = time.time()
             resp = self.provider.complete(
                 system=ctx.system,
@@ -122,7 +135,9 @@ class HarnessLoop:
 
             for c in calls:
                 tc = ToolCall(name=c["name"], arguments=c.get("arguments", {}))
+                self._emit("tool_call_start", {"name": tc.name, "arguments": tc.arguments})
                 tr: ToolResult = self.tools.execute(tc)
+                self._emit("tool_result", {"name": tc.name, "ok": tr.ok, "output": tr.output[:2000], "error": tr.error})
                 tool_calls_log.append({
                     "name": tc.name,
                     "arguments": tc.arguments,
