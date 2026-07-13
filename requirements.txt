@@ -1,0 +1,37 @@
+# SAIL — Python dependencies (harness + chat-ui backend)
+#
+# Canonical source is sail-platform/pyproject.toml; this file mirrors it for
+# quick `pip install -r requirements.txt` and adds the chat-ui backend deps.
+# Version floors are the known-good versions this repo was verified against.
+#
+# Frontend deps are separate: `cd chat-ui/web && npm install` (see package.json).
+#
+#   python -m venv .venv && source .venv/bin/activate
+#   pip install -r requirements.txt
+#   bash chat-ui/start.sh
+
+# --- harness core ---
+pyyaml>=6.0
+pydantic>=2.5
+click>=8.1
+rich>=13.0
+json-repair>=0.25
+fastembed>=0.8          # local embeddings (bge-small); pulls onnxruntime
+numpy>=1.24
+filelock>=3.13
+python-dotenv>=1.0
+
+# --- model provider ---
+# NOTE: the [proxy] extra is REQUIRED for tool calling — plain `litellm`
+# errors mid-call (its tool path imports fastapi/orjson from the proxy chain).
+litellm[proxy]>=1.40
+
+# --- chat-ui backend (FastAPI SSE bridge) ---
+fastapi>=0.110
+uvicorn>=0.29
+
+# --- optional (uncomment as needed) ---
+# turbovec>=0.1         # faster vector store (numpy fallback works without it)
+# vllm>=0.6             # local GPU serving
+# ollama>=0.2           # local edge serving
+# pytest>=8.0           # running the eval / smoke tests
