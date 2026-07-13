@@ -66,7 +66,7 @@ export function Thread({ turns }: { turns: Turn[] }) {
   if (turns.length === 0) {
     return (
       <div className="flex-1 flex items-center justify-center text-ink-3 text-[13px]">
-        Send a message — the router picks a specialist and you watch it work.
+        Send a message. The router picks a specialist and you watch it work.
       </div>
     )
   }

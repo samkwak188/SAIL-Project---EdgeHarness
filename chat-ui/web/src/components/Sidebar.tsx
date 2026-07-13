@@ -102,7 +102,7 @@ export function Sidebar({
       <div>
         <GroupLabel>Sessions</GroupLabel>
         {rest.length === 0 ? (
-          <div className="px-2 py-1 text-[12.5px] text-ink-3">Start a session — your history lives here.</div>
+          <div className="px-2 py-1 text-[12.5px] text-ink-3">Start a session. Your history lives here.</div>
         ) : (
           rest.map(item)
         )}
