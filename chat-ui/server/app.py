@@ -54,6 +54,29 @@ async def chat(req: ChatRequest):
     return StreamingResponse(gen(), media_type="text/event-stream")
 
 
+class SelectRequest(BaseModel):
+    file: str
+
+
+class KeyRequest(BaseModel):
+    api_key: str
+
+
+@app.get("/api/models")
+def list_models():
+    return bridge.list_configs()
+
+
+@app.post("/api/models/select")
+def select_model(req: SelectRequest):
+    return {"ok": bridge.select_config(req.file)}
+
+
+@app.post("/api/keys")
+def add_key(req: KeyRequest):
+    return bridge.add_key(req.api_key)
+
+
 @app.get("/api/sessions")
 def list_sessions():
     return sessions.list_sessions()

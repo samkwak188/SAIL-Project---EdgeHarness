@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { ModelPicker } from './ModelPicker'
 
 export function Composer({ onSend, busy }: { onSend: (text: string) => void; busy: boolean }) {
   const [text, setText] = useState('')
@@ -23,9 +24,12 @@ export function Composer({ onSend, busy }: { onSend: (text: string) => void; bus
           }
         }}
       />
-      <button className="border border-gray-300 rounded px-3 disabled:opacity-50" onClick={submit} disabled={busy}>
-        Send
-      </button>
+      <div className="flex flex-col gap-1 items-end">
+        <button className="border border-gray-300 rounded px-3 py-1 disabled:opacity-50" onClick={submit} disabled={busy}>
+          Send
+        </button>
+        <ModelPicker />
+      </div>
     </div>
   )
 }
