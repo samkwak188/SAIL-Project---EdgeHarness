@@ -1,0 +1,9 @@
+# acct_05 — Client trust sub-ledger (easy)
+task_text: "A client pays a $10,000.00 retainer into the firm's trust account. The firm later bills $3,200.00 in earned fees (transferred out of trust) and pays a $475.00 court reporter fee from trust on the client's behalf. What balance remains in trust for this client? State your final answer on its own line in the exact format: FINAL ANSWER: $X,XXX.XX — then use the write tool to save exactly that FINAL ANSWER line to the file examples/accounting/answers/acct_05.txt"
+expected_route: specialist
+gate:
+  command: "grep -qF '$6,325.00' examples/accounting/answers/acct_05.txt"
+  description: "answer file contains the remaining client trust balance"
+expected_answer_contains: ["$6,325.00"]
+category: trust_accounting
+difficulty: easy

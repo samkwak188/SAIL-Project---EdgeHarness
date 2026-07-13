@@ -1,0 +1,9 @@
+# acct_04 — IOLTA trust reconciliation (medium)
+task_text: "Reconcile this IOLTA client trust ledger for June. Opening balance: $12,500.00. Activity: client retainer deposit $5,000.00; court filing fee paid from trust $402.00; settlement disbursement to client $3,750.00; earned fees transferred to operating account $2,100.00. What is the closing trust ledger balance? State your final answer on its own line in the exact format: FINAL ANSWER: $XX,XXX.XX — then use the write tool to save exactly that FINAL ANSWER line to the file examples/accounting/answers/acct_04.txt"
+expected_route: specialist
+gate:
+  command: "grep -qF '$11,248.00' examples/accounting/answers/acct_04.txt"
+  description: "answer file contains the closing trust ledger balance"
+expected_answer_contains: ["$11,248.00"]
+category: trust_accounting
+difficulty: medium

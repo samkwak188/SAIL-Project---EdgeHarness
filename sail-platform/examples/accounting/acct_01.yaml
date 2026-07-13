@@ -1,0 +1,9 @@
+# acct_01 — Billing arithmetic (easy)
+task_text: "You are a law firm billing clerk. Compute the invoice total: Partner time 3.5 hours at $250/hr; paralegal time 1.2 hours at $180/hr; court filing fee (pass-through, no markup) $402.00. State your final answer on its own line in the exact format: FINAL ANSWER: $X,XXX.XX — then use the write tool to save exactly that FINAL ANSWER line to the file examples/accounting/answers/acct_01.txt"
+expected_route: specialist
+gate:
+  command: "grep -qF '$1,493.00' examples/accounting/answers/acct_01.txt"
+  description: "answer file contains the exact invoice total"
+expected_answer_contains: ["$1,493.00"]
+category: billing
+difficulty: easy

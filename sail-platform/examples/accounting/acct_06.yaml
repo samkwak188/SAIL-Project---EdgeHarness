@@ -1,0 +1,9 @@
+# acct_06 — Accounts receivable aging (medium)
+task_text: "Prepare an AR aging as of June 30, 2026 using invoice date (buckets: 0-30, 31-60, 61-90 days). Open invoices: INV-101 dated April 10, 2026 for $1,200.00; INV-102 dated May 15, 2026 for $2,400.00; INV-103 dated June 5, 2026 for $900.00; INV-104 dated May 28, 2026 for $1,850.00; INV-105 dated June 20, 2026 for $3,000.00. What is the total in the 31-60 day bucket? State your final answer on its own line in the exact format: FINAL ANSWER: $X,XXX.XX — then use the write tool to save exactly that FINAL ANSWER line to the file examples/accounting/answers/acct_06.txt"
+expected_route: specialist
+gate:
+  command: "grep -qF '$4,250.00' examples/accounting/answers/acct_06.txt"
+  description: "answer file contains the 31-60 day bucket total"
+expected_answer_contains: ["$4,250.00"]
+category: ar_aging
+difficulty: medium

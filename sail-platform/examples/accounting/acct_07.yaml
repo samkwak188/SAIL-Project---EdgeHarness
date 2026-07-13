@@ -1,0 +1,9 @@
+# acct_07 — Expense categorization with total (medium)
+task_text: "Categorize each transaction using ONLY these categories: Office Supplies, Legal Research, Court Costs, Rent. Transactions: (1) Staples - printer paper $86.40; (2) Westlaw monthly subscription $450.00; (3) Amazon - toner cartridges $123.60; (4) Superior Court filing fee $350.00; (5) Staples - pens and folders $42.00; (6) Monthly office rent $2,000.00. What is the total of all transactions categorized as Office Supplies? State your final answer on its own line in the exact format: FINAL ANSWER: $XXX.XX — then use the write tool to save exactly that FINAL ANSWER line to the file examples/accounting/answers/acct_07.txt"
+expected_route: specialist
+gate:
+  command: "grep -qF '$252.00' examples/accounting/answers/acct_07.txt"
+  description: "answer file contains the Office Supplies category total"
+expected_answer_contains: ["$252.00"]
+category: expense_categorization
+difficulty: medium

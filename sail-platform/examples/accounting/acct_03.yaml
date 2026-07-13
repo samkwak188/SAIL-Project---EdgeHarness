@@ -1,0 +1,9 @@
+# acct_03 — Straight-line depreciation (easy)
+task_text: "A law firm buys an office copier for $6,000.00 with an estimated salvage value of $600.00 and a useful life of 5 years. Using straight-line depreciation, what is the annual depreciation expense? State your final answer on its own line in the exact format: FINAL ANSWER: $X,XXX.XX — then use the write tool to save exactly that FINAL ANSWER line to the file examples/accounting/answers/acct_03.txt"
+expected_route: specialist
+gate:
+  command: "grep -qF '$1,080.00' examples/accounting/answers/acct_03.txt"
+  description: "answer file contains the annual straight-line depreciation"
+expected_answer_contains: ["$1,080.00"]
+category: depreciation
+difficulty: easy

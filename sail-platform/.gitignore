@@ -105,3 +105,6 @@ $RECYCLE.BIN/
 .sail/state/scratchpad.json
 .sail/state/scratchpad.json.lock
 .sail/state/*.bak
+
+# --- Accounting basket runtime answers (written by the model per run) ---
+examples/accounting/answers/

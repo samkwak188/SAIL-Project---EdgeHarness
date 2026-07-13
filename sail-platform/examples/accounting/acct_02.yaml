@@ -1,0 +1,9 @@
+# acct_02 — Sales tax (easy)
+task_text: "A law office buys supplies with a pre-tax subtotal of $840.00. Sales tax is 8.25%. What is the total amount payable including tax? State your final answer on its own line in the exact format: FINAL ANSWER: $XXX.XX — then use the write tool to save exactly that FINAL ANSWER line to the file examples/accounting/answers/acct_02.txt"
+expected_route: specialist
+gate:
+  command: "grep -qF '$909.30' examples/accounting/answers/acct_02.txt"
+  description: "answer file contains the tax-inclusive total"
+expected_answer_contains: ["$909.30"]
+category: sales_tax
+difficulty: easy
