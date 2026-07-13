@@ -10,25 +10,31 @@ export function Composer({ onSend, busy }: { onSend: (text: string) => void; bus
     onSend(t)
   }
   return (
-    <div className="border-t border-gray-300 p-3 flex gap-2">
-      <textarea
-        className="flex-1 border border-gray-300 rounded px-2 py-1 resize-none"
-        rows={2}
-        value={text}
-        placeholder="Message…"
-        onChange={(e) => setText(e.target.value)}
-        onKeyDown={(e) => {
-          if (e.key === 'Enter' && !e.shiftKey) {
-            e.preventDefault()
-            submit()
-          }
-        }}
-      />
-      <div className="flex flex-col gap-1 items-end">
-        <button className="border border-gray-300 rounded px-3 py-1 disabled:opacity-50" onClick={submit} disabled={busy}>
-          Send
-        </button>
-        <ModelPicker />
+    <div className="max-w-[760px] w-full mx-auto px-6 pb-2">
+      <div className="border border-line rounded-[16px] bg-bg shadow-halo">
+        <textarea
+          className="w-full resize-none px-4 pt-3 pb-1 bg-transparent focus-visible:outline-none"
+          rows={2}
+          value={text}
+          placeholder="Message SAIL…"
+          onChange={(e) => setText(e.target.value)}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter' && !e.shiftKey) {
+              e.preventDefault()
+              submit()
+            }
+          }}
+        />
+        <div className="flex items-center justify-between px-3 pb-2.5">
+          <ModelPicker />
+          <button
+            className="bg-ink text-bg rounded-[10px] px-4 py-1.5 text-[13px] font-medium transition-opacity duration-150 disabled:opacity-40 cursor-pointer disabled:cursor-default"
+            onClick={submit}
+            disabled={busy || !text.trim()}
+          >
+            Send
+          </button>
+        </div>
       </div>
     </div>
   )

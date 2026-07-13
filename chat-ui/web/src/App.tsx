@@ -80,8 +80,8 @@ export default function App() {
       <div className="flex-1 flex flex-col min-w-0">
         <Thread turns={turns} />
         <Composer onSend={send} busy={busy} />
-        <div className="text-right text-xs text-gray-500 px-3 pb-1">
-          ctx: {(usage.tokens_in + usage.tokens_out).toLocaleString()} tok · ${usage.cost.toFixed(4)}
+        <div className="max-w-[760px] w-full mx-auto px-6 pb-3 text-right font-mono text-[11px] text-ink-3 [font-variant-numeric:tabular-nums]">
+          ctx {(usage.tokens_in + usage.tokens_out).toLocaleString()} tok · ${usage.cost.toFixed(4)}
         </div>
       </div>
     </div>

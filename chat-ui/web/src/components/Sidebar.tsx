@@ -3,6 +3,12 @@ import { useEffect, useState } from 'react'
 export type SessionMeta = { id: string; title: string; pinned: boolean; created: number; updated: number }
 type Skill = { name: string; description: string }
 
+function GroupLabel({ children }: { children: string }) {
+  return (
+    <div className="text-[11px] font-[550] uppercase tracking-[0.04em] text-ink-3 px-2 mb-1.5">{children}</div>
+  )
+}
+
 export function Sidebar({
   currentId,
   refreshKey,
@@ -41,50 +47,65 @@ export function Sidebar({
     refresh()
   }
 
-  const item = (s: SessionMeta) => (
-    <div
-      key={s.id}
-      className={`flex items-center gap-1 px-2 py-1 rounded cursor-pointer text-sm ${s.id === currentId ? 'bg-gray-100' : ''}`}
-      onClick={() => onOpen(s.id)}
-    >
-      <span className="flex-1 truncate">{s.title}</span>
-      <button
-        className="text-gray-400"
-        onClick={(e) => {
-          e.stopPropagation()
-          togglePin(s)
-        }}
+  const item = (s: SessionMeta) => {
+    const active = s.id === currentId
+    return (
+      <div
+        key={s.id}
+        className={`group flex items-center gap-1 px-2 py-1.5 rounded-[6px] cursor-pointer text-[13px] transition-colors duration-150 ${
+          active ? 'bg-bg border border-line text-ink' : 'border border-transparent text-ink-2 hover:bg-bg/60'
+        }`}
+        onClick={() => onOpen(s.id)}
       >
-        {s.pinned ? '★' : '☆'}
-      </button>
-    </div>
-  )
+        <span className="flex-1 truncate">{s.title}</span>
+        <button
+          className={`text-ink-3 transition-opacity duration-150 cursor-pointer ${
+            s.pinned ? '' : 'opacity-0 group-hover:opacity-100'
+          }`}
+          aria-label={s.pinned ? 'Unpin session' : 'Pin session'}
+          onClick={(e) => {
+            e.stopPropagation()
+            togglePin(s)
+          }}
+        >
+          {s.pinned ? '★' : '☆'}
+        </button>
+      </div>
+    )
+  }
 
   const pinned = sessions.filter((s) => s.pinned)
   const rest = sessions.filter((s) => !s.pinned)
 
   return (
-    <div className="w-60 border-r border-gray-300 flex flex-col p-2 gap-3 overflow-y-auto shrink-0">
-      <button className="border border-gray-300 rounded px-2 py-1 text-sm text-left" onClick={onNew}>
+    <div className="w-60 shrink-0 bg-panel border-r border-line flex flex-col gap-6 p-3 overflow-y-auto max-[900px]:hidden">
+      <button
+        className="border border-line-strong bg-bg rounded-[10px] px-3 py-1.5 text-[13px] font-medium text-left cursor-pointer hover:border-ink transition-colors duration-150"
+        onClick={onNew}
+      >
         + New session
       </button>
       <div>
-        <div className="text-xs text-gray-500 px-2 mb-1">Skills</div>
+        <GroupLabel>Skills</GroupLabel>
         {skills.map((sk) => (
-          <div key={sk.name} className="px-2 py-0.5 text-sm text-gray-600" title={sk.description}>
+          <div key={sk.name} className="px-2 py-1 font-mono text-[12.5px] text-ink-2" title={sk.description}>
             {sk.name}
           </div>
         ))}
       </div>
       {pinned.length > 0 && (
         <div>
-          <div className="text-xs text-gray-500 px-2 mb-1">Pinned</div>
+          <GroupLabel>Pinned</GroupLabel>
           {pinned.map(item)}
         </div>
       )}
       <div>
-        <div className="text-xs text-gray-500 px-2 mb-1">Sessions</div>
-        {rest.map(item)}
+        <GroupLabel>Sessions</GroupLabel>
+        {rest.length === 0 ? (
+          <div className="px-2 py-1 text-[12.5px] text-ink-3">Start a session — your history lives here.</div>
+        ) : (
+          rest.map(item)
+        )}
       </div>
     </div>
   )
